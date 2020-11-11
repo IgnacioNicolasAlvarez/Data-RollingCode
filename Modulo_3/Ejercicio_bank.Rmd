@@ -1,0 +1,85 @@
+---
+title: "Ejercicio Bank"
+output: html_notebook
+---
+
+```{r}
+library(GGally)
+```
+
+
+## Cargar el dataset
+
+```{r}
+df <- read_delim('./ejercicios R/bank.csv', delim = ';')
+```
+
+## Renombrar las variables, a partir de las siguientes definiciones:
+
+* 1 - age: edad
+* 2 - job : trabajo-tipo de trabajo.
+* 3 - marital : estado civil.
+* 4 - education: educación-nivel educativo.
+* 5 - default: tiene un crédito en mora
+* 6 - balance: balance promedio anual, en euros. 
+* 7 - housing: tiene préstamo hipotecario.
+* 8 - loan: tiene préstamo personal.
+* 9 - contact: tipo de contancto que tuvo. 
+* 10 - day: ultimo día del mes en que fue contactado.
+* 11 - month: último mes del año en que fue contactado.
+* 12 - duration: duración del último contacto, en segundos.
+* 13 - campaign: cantidad de contactos realizados durante esa campaña y para ese cliente.
+* 14 - pdays: numero de dias pasados luego de la última vez que el cliente fue contactado en una campaña previa.
+* 15 - previous: numero de contactos realizados antes de la actual campaña y para ese cliente.
+* 16 - poutcome: resultado de la campaña de mnarketing previa.
+* 17 - y: el cliente suscrubió o no un plazo fijo.
+
+```{r}
+nuevas_col <- c(
+    'edad',
+    'trabajo_tipo',
+    'estado_civil',
+    'educación_nivel',
+    'credito_en_mora',
+    'balance_prom_anual',
+    'credito_hipotecario',
+    'credito_personal',
+    'tipo_contacto',
+    'ultimo_dia_mes_contacto',
+    'ultimo_mes_anio_contacto',
+    'seg_duracion_contacto',
+    'cant_contactos_en_campania',
+    'dias_desde_ultimo_contacto',
+    'cant_contactos_antes_campania',
+    'resultado_campania_previa',
+    'target'
+  )
+  
+  names(df) <- nuevas_col
+```
+
+## Observar la estadística descriptiva del dataset.
+```{r}
+summary(df)
+```
+
+```{r}
+
+df %>%
+  count(trabajo_tipo) %>%
+  mutate(trabajo_tipo = fct_reorder(trabajo_tipo, n, .desc = TRUE)) %>%
+  ggplot(aes(x = trabajo_tipo, y = n)) +
+  geom_bar(stat = 'identity') +
+  theme(axis.text.x = element_text(angle = 90)) +
+  ggtitle("Conteo de según tipo de trabajo y target") +
+  labs(y = "Conteo", x = "Tipo de Trabajo")
+
+```
+## Qué proporciòn de personas suscribieron un plazo fijo?
+```{r}
+df %>%
+  
+  ggplot(aes(x = target)) +
+  geom_bar()
+```
+

@@ -434,7 +434,7 @@ mtcars <- read.table(file = 'mtcars.txt', header = T, sep = '\t', stringsAsFacto
 
 
 # stringsAsFactors = FALSE se fija para prevenir que las variables character sean convertidas a factores,
-# al tener un df con variables numéricas y caracter.
+# al tener un df con variabRFles numéricas y caracter.
 
 
 ## Ejercicios:
@@ -527,10 +527,16 @@ head(clientes2)
 
 # (1) Acotar el df de provincias, con el fin de tener sólo 19 de ellas.
 
+provincias_acotado_19 <- data.frame(provincias[1:19])
+
 # (2) Consultar un inner join y un left join con este nuevo df. Comparar la cantidad de casos respecto al ejemplo original.
+
+clientes_inner <- merge(x = clientes, y = provincias_acotado_19, by.x = 'provincia', by.y = 'id', all.x = T)
+clientes2_left <- merge(x = clientes, y = provincias_acotado_19, by.x = 'provincia', by.y = 'id')
 
 # (3) Agregar una nueva columna de "Canitdad de Habitantes" que surjan de una distribución normal o la que prefiera.
 
+provincias_acotado_19_con_hab <- cbind(provincias_acotado_19, data.frame(cant_hab = rnorm(19, 100000, 100)))
 
 
 ### Plots basicos: -> plot() ; hist() ; boxplot()
@@ -552,4 +558,4 @@ hist(x = mtcars$mpg, breaks = 6, main = 'Histograma de MPG', xlab = 'MPG')
 
 boxplot(mpg ~ cyl, data = mtcars, main = 'Boxplot MPG por CYL', xlab = 'CYL', ylab = 'MPG')
 
-https://www.kaggle.com/arjunbhasin2013/ccdata
+
